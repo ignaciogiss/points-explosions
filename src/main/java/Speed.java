@@ -3,6 +3,7 @@ import java.util.Random;
 public class Speed {
   private int dirX, dirY;
   private float speed;
+  private float dspeed = 0f;
 
   public Speed(int x, int y) {
     dirX = x;
@@ -12,17 +13,25 @@ public class Speed {
   }
 
   public void step() {
+    dspeed += 0.2f;
     if (speed > 0.02f) {
       speed -= 0.02f;
     }
   }
 
   public double getStepX() {
-    return speed*dirX;// + getRandomSign();
+    return speed*dirX;
   }
 
   public double getStepY() {
-    return speed*dirY;// + getRandomSign();
+    if (dirY == 0) {
+      return dspeed;
+    }
+    return (speed + dspeed*sign(dirY))*dirY;
+  }
+
+  private float sign(float v) {
+    return v > 0f ? 1f : -1f;
   }
 
   private int getRandomSign() {
